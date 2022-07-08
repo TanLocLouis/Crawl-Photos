@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
     int count;
-    string text, img, file, find_img = "<img src=\"https://camo";
+    string text, img, file, find_img = "<img src=\"https://voz.vn/attachment";
 
     //system("curl https://voz.vn/t/thu-tuong-anh-chap-nhan-tu-chuc.579379/page-1.html >> VOZ.txt");
     //https://voz.vn/attachments/1639063273139-png.913705/
@@ -23,7 +23,7 @@ again:
                 if (text[i] == char(34) && text[i + 1] == char(32)) {
                     img = text.substr(10,i - 10);
                     time_t now = time(0);
-                    system(("wget --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\"" + img + " -O Picture_" + to_string(now) + ".jpg").c_str());
+                    system(("wget --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" " + img + " -O Photo_" + to_string(now) + ".jpg").c_str());
                     count++;
                     cout << img << endl;
                     cout << endl;

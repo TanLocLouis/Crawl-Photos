@@ -1,1 +1,1 @@
-Crawl photos data from VOZ.
+Crawl photos.

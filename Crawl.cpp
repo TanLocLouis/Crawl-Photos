@@ -6,23 +6,20 @@
 using namespace std;
 
 int main() {
-    int count, pages, j;
-    string url, text, img, file, find_img = "<img src=\"https://voz.vn/attachment";
+    int count, pages, each_page;
+    string url, text, img, file, find_img = "<img src=\"https://voz.vn/attachment"; // pattern to dectect data
 
     cout << "Link: ";
     cin >> url;
     cout << "Number of Pages: ";
     cin >> pages;
-    //system("curl https://voz.vn/t/thu-tuong-anh-chap-nhan-tu-chuc.579379/page-1.html >> VOZ.txt");
-    //https://voz.vn/attachments/1639063273139-png.913705/
-    //if (text[i] == char(34) && text[i + 1] == char(32)) {
 
-    for (int j = 1; j <= pages; j++) {
-         system(("wget -O VOZ.txt --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" " + url + "page-" + to_string(j)).c_str());
+    for (int each_page = 1; each_page <= pages; each_page++) { //get data each page
+        system(("wget -O VOZ.txt --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" " + url + "page-" + to_string(each_page)).c_str()); //download current page
 
         fstream f1("VOZ.txt");
 
-        while (getline(f1, text)){
+        while (getline(f1, text)){// get data current page
             if (text.find(find_img) != string::npos) {
                 for (int i = 0; i <= text.length() - 2; i++) {
                     if (text[i] == char(34) && text[i + 1] == char(32)) {

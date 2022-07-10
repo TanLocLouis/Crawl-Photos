@@ -14,7 +14,7 @@ int main() {
     cout << "Number of Pages: ";
     cin >> pages;
 
-    for (int each_page = 1; each_page <= pages; each_page++) { //get data each page
+    for (int each_page = 1; each_page <= pages; each_page++) { // get data each page
         system(("wget -O VOZ.txt --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" " + url + "page-" + to_string(each_page)).c_str()); //download current page
 
         fstream f1("VOZ.txt");
@@ -25,9 +25,9 @@ int main() {
                     if (text[i] == char(34) && text[i + 1] == char(32)) {
                         img = text.substr(10,i - 10);
                         time_t now = time(0);
-                        system(("wget --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" " + img + " -O Photo_" + to_string(now) + ".jpg").c_str());
+                        system(("wget --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" " + img + " -O Photo_" + to_string(now) + ".jpg").c_str()); // download data
                         count++;
-                        cout << img << endl;
+                        cout << img << endl; // show link of data
                         cout << endl;
                         break;
                     }             

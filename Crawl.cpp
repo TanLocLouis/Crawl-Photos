@@ -5,18 +5,23 @@
 
 using namespace std;
 
-int main() {
-    int count, pages, each_page;
-    string url, text, img, file, find_img = "<img src=\"https://voz.vn/attachment"; // pattern to dectect data
+int count, pages, each_page;
+string url, text, img, file, find_img = "<img src=\"https://voz.vn/attachment"; // pattern to dectect data
 
+void input() {
     cout << "Link: ";
     cin >> url;
     cout << "Number of Pages: ";
     cin >> pages;
+}
 
-    for (int each_page = 1; each_page <= pages; each_page++) { // get data each page
+void get_data() {
+        for (int each_page = 1; each_page <= pages; each_page++) { // get data each page
         system(("wget -O VOZ.txt --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" " + url + "page-" + to_string(each_page)).c_str()); //download current page
+        }
+}
 
+void commit() {
         fstream f1("VOZ.txt");
 
         while (getline(f1, text)){// get data current page
@@ -34,6 +39,12 @@ int main() {
                 }
             }
         }
+
         f1.close();
-    }
+}
+
+int main() {
+    input();
+    get_data();
+    commit();
 }

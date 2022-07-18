@@ -39,7 +39,6 @@ void commit() {
                 }
             }
         }
-
         f1.close();
 }
 

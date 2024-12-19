@@ -1,5 +1,6 @@
 Crawl photos.
 
-Your machine need installing wget to use it.
+Your machine need installing ```wget``` to use it.
 
-You need to add link with no page number and type the numbers of pages.
+1. Add thread link with no page number.
+2. Choose how many pages you want to download.

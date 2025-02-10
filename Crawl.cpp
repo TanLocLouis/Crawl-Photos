@@ -4,29 +4,33 @@
 
 using namespace std;
 
-int count = 0, pages, each_page;
-string url, text, img, file, find_img = "<img src=\"https://voz.vn/attachment"; // pattern to dectect data
-
-void input() {
-    cout << "Link: ";
+void input(int& numPages, string& url) {
+    cout << "Link without page-n: ";
     cin >> url;
-    cout << "Number of Pages: ";
-    cin >> pages;
+    cout << "Number of pages: ";
+    cin >> numPages;
 }
 
-void commit() {
-        fstream f1("VOZ.txt");
+void commit(string filename, int& count) {
+        fstream f1(filename);
 
-        while (getline(f1, text)){// get data current page
-            if (text.find(find_img) != string::npos) {
-                for (int i = 0; i <= text.length() - 2; i++) {
-                    if (text[i] == char(34) && text[i + 1] == char(32)) {
-                        img = text.substr(10,i - 10);
-                        system(("wget --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" " + img + " -O Photo_" + to_string(count) + ".jpg").c_str()); // download data
+        string text, img_link;
+        string imgPattern = "<img src=\"https://voz.vn/attachment"; // pattern to dectect data
+        while (getline(f1, text)){ // get data current page
+            if (text.find(imgPattern) != string::npos) {
+                for (int i = 0; i < text.length() ; i++) {
+                    if (text[i] == '\"') {
+                        img_link = text.substr(i + 1, text.length() - i - 2); // get link of image
+                        string cmd = "curl -A \"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" -o Photo_" + std::to_string(count) + ".jpg \"" + img_link + "\"";
+                        system(cmd.c_str());
                         count++;
-                        cout << img << endl; // show link of data
+
+                        cout << endl;
+                        cout << "------------------------------------------------------------------" << endl;
+                        cout << img_link << endl; // show link of image
                         cout << "------------------------------------------------------------------" << endl;
                         cout << endl;
+
                         break;
                     }             
                 }
@@ -35,14 +39,22 @@ void commit() {
         f1.close();
 }
 
-void get_data() {
-        for (int each_page = 1; each_page <= pages; each_page++) { // get data each page
-            system(("wget -O VOZ.txt --user-agent=\"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" " + url + "page-" + to_string(each_page)).c_str()); //download current page
-            commit();
-        }
+void get_data(int numPages, string url) {
+    int count = 0;
+    for (int eachPage = 1; eachPage <= numPages; eachPage++) {
+        cout << "------------------------------------------------------------------" << endl;
+        cout << "Downloading page " << eachPage << "..." << endl;
+        cout << "------------------------------------------------------------------" << endl;
+        string cmd = "curl.exe -A \"Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0\" -o VOZ.txt " + url + "page-" + to_string(eachPage); // get data from current page
+        system(cmd.c_str()); // get images' link from current page
+        commit("VOZ.txt", count); // download images
+    }
 }
 
 int main() {
-    input();
-    get_data();
+    int numPages;
+    string url;
+
+    input(numPages, url);
+    get_data(numPages, url);
 }
